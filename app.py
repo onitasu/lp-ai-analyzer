@@ -6,7 +6,7 @@ import os
 import base64
 import streamlit as st
 
-from src.capture.playwright_capture import fetch_page
+from src.capture.simple_capture import fetch_page
 from src.llm.exceptions import StructuredCallError
 from src.llm.pipeline import run_structured_pipeline
 from src.utils.io import make_run_dir, read_text
