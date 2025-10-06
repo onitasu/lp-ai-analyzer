@@ -1,0 +1,11 @@
+streamlit==1.37.0
+selenium==4.23.1
+webdriver-manager==4.0.2
+requests>=2.31
+beautifulsoup4>=4.12
+google-genai>=1.0.0
+openai>=1.40.0
+patch-ng==1.17.4
+st-diff-viewer==1.0.7
+Pillow>=10.3
+pydantic>=2.7
