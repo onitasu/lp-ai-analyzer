@@ -175,6 +175,33 @@ Reasoning: high
 
 ---
 
+## 🚀 Streamlit Community Cloudへのデプロイ
+
+### デプロイ前の準備
+
+1. **Playwrightブラウザのインストール**
+   - アプリ初回起動時に自動でインストールされます
+   - 手動でインストールする場合: `playwright install chromium`
+
+2. **環境変数の設定**
+   - Streamlit Community Cloudの管理画面で以下を設定：
+     - `GEMINI_API_KEY`: Google Gemini APIキー
+     - `OPENAI_API_KEY`: OpenAI APIキー
+
+3. **デプロイ設定**
+   - Repository: `onitasu/lp-ai-analyzer`
+   - Branch: `main`
+   - Main file: `app.py`
+
+### トラブルシューティング
+
+#### Playwrightブラウザのインストールエラー
+
+もしデプロイ時にPlaywrightのエラーが出た場合：
+
+1. アプリを再起動（Streamlit Cloud管理画面から）
+2. それでも解決しない場合、ログを確認してGitHub Issuesで報告
+
 ## 📞 サポート
 
 問題が発生した場合は、GitHubのIssuesでお知らせください。

@@ -2,9 +2,23 @@ import os
 import urllib.parse
 from typing import Dict, List
 import asyncio
+import sys
 from playwright.async_api import async_playwright
 import requests
 from bs4 import BeautifulSoup
+
+
+def install_playwright_browsers():
+    """Playwrightブラウザをインストール"""
+    try:
+        import subprocess
+        print("Installing Playwright browsers...")
+        subprocess.run([sys.executable, "-m", "playwright", "install", "chromium"], check=True)
+        print("Playwright browsers installed successfully!")
+        return True
+    except Exception as e:
+        print(f"Failed to install Playwright browsers: {e}")
+        return False
 
 
 async def fetch_page_playwright(url: str, run_dir: str) -> Dict[str, object]:
@@ -131,4 +145,15 @@ async def fetch_page_playwright(url: str, run_dir: str) -> Dict[str, object]:
 
 def fetch_page(url: str, run_dir: str) -> Dict[str, object]:
     """同期関数としてPlaywrightキャプチャを実行"""
-    return asyncio.run(fetch_page_playwright(url, run_dir))
+    try:
+        return asyncio.run(fetch_page_playwright(url, run_dir))
+    except Exception as e:
+        error_msg = str(e)
+        # Playwrightブラウザが未インストールの場合
+        if "Executable doesn't exist" in error_msg or "playwright install" in error_msg:
+            print("Playwright browsers not found. Installing...")
+            if install_playwright_browsers():
+                # 再試行
+                return asyncio.run(fetch_page_playwright(url, run_dir))
+        # その他のエラーの場合は再度raise
+        raise
