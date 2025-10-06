@@ -17,9 +17,30 @@ def new_driver() -> webdriver.Chrome:
     opts.add_argument("--headless=new")
     opts.add_argument("--disable-gpu")
     opts.add_argument("--no-sandbox")
+    opts.add_argument("--disable-dev-shm-usage")
+    opts.add_argument("--disable-extensions")
+    opts.add_argument("--disable-plugins")
+    opts.add_argument("--disable-images")
+    opts.add_argument("--disable-javascript")
+    opts.add_argument("--disable-web-security")
+    opts.add_argument("--allow-running-insecure-content")
     opts.add_argument(f"--window-size={VIEWPORT_WIDTH},{VIEWPORT_HEIGHT}")
-    service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service, options=opts)
+    
+    # Streamlit Community Cloud用の設定
+    if os.getenv("STREAMLIT_SERVER_HEADLESS"):
+        # クラウド環境ではChromeDriverManagerを使用せず、システムのChromeDriverを使用
+        try:
+            service = Service()  # システムのChromeDriverを使用
+            driver = webdriver.Chrome(service=service, options=opts)
+        except Exception:
+            # フォールバック: ChromeDriverManagerを使用
+            service = Service(ChromeDriverManager().install())
+            driver = webdriver.Chrome(service=service, options=opts)
+    else:
+        # ローカル環境ではChromeDriverManagerを使用
+        service = Service(ChromeDriverManager().install())
+        driver = webdriver.Chrome(service=service, options=opts)
+    
     return driver
 
 
